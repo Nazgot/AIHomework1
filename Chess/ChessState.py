@@ -5,7 +5,7 @@ from .ChessPieces import ChessPieces as cp
 # This class stores a game state and the possible moves for each piece
 class ChessState():
 
-    def __init__(self, heuristic = 'PIECE_VALUE', board = []):
+    def __init__(self, heuristic = 'NULL', board = []):
         self.board = board
         self.value = 0
         self.heuristic = heuristic
@@ -302,7 +302,8 @@ class ChessState():
             new_state.final = True
 
         # We compute the heuristica value of the new state
-        new_state.compute_value()
+        if self.heuristic is not 'NULL':
+            new_state.compute_value()
         # We append the new state to the horizon of the current state
         self.horizon.append(new_state)
         return eaten
