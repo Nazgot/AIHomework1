@@ -40,3 +40,5 @@ def piece_value(state):
             if state.board[i][j] == cp.B_QUEEN.value:
                 state.value = state.value - 9
                 continue
+    
+    return state.value

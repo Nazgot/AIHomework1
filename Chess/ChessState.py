@@ -39,6 +39,7 @@ class ChessState():
 
     # Generates the horizon from the current state
     def generate_horizon(self, turn):
+        print("Computing horizon...")
         # White turn management
         if turn == False:
             # Foreach movable piece, generate a state with the piece moved in every direction it can move

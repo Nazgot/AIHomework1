@@ -50,3 +50,5 @@ def piece_value_with_positions(state):
             if state.board[i][j] == cp.B_QUEEN.value:
                 state.value = round(state.value - 9 * heatmap[i][j], 4)
                 continue
+
+    return state.value

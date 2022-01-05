@@ -9,10 +9,11 @@ from Config import Config
 
 class Predict:
     def __init__(self):
+        print(Dataset.data)
         self.dataset = self.prepare_dataset(Dataset.data)
-        self.Y = self.dataset.pop('H')
+        self.y = self.dataset.pop('h')
         self.X = self.dataset
-        self.scaler = MinMaxScaler().fit(self.dataset)
+        self.scaler = MinMaxScaler().fit(self.dataset.values)
         self.model = self.create_model([self.dataset.shape[1]])
 
     def create_model(self, input_shape):
@@ -53,9 +54,9 @@ class Predict:
 
     def update_dataset(self):
         self.dataset = self.prepare_dataset(Dataset.data)
-        self.y = self.dataset.pop('H')
+        self.y = self.dataset.pop('h')
         self.X = self.dataset
-        self.scaler = MinMaxScaler().fit(self.dataset)
+        self.scaler = MinMaxScaler().fit(self.dataset.values)
 
     def save_model(self):
         self.model.save('./models/depth'+str(Config.DEPTH)+'/model')
