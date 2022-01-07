@@ -17,10 +17,10 @@ def play_match(predict):
 
     while not game_over:
         if count % 1 == 0:
-            print("\n-----------------------" + str(count) + "----------------------\n")
+            print("\n-----------------------" + str(count) + "turn: "+ str(turn)+"----------------------\n")
             state.print_board()
         count += 1
-        state, value = minimax(state, 2, -np.inf, np.inf, turn, predict)
+        state, value = minimax(state, 1, -np.inf, np.inf, turn, predict)
         game.append(state)
 
         
@@ -29,6 +29,7 @@ def play_match(predict):
             game_over = True
 
         turn = not turn
+    return True if state.black_win == True else False
 
 
 
@@ -38,11 +39,13 @@ def main():
     Dataset.read()
     predict = Predict()
     predict.load_model()
+    black_wins = 0
 
-    for counter in range(50): 
+    for counter in range(20): 
         print("\nStarting match " + str(counter))
         start = time.time()
-        play_match(predict)
+        if play_match(predict) == True:
+            black_wins +=1
         end = time.time()
         print("\nMatch lasted %d seconds", end - start)
 
@@ -52,6 +55,8 @@ def main():
             predict.save_model()
     
         Dataset.write()
+    
+    print("Black wins = " + str(black_wins) + "\nWhite wins = " + str(20-black_wins))
 
 
 if __name__ == "__main__":

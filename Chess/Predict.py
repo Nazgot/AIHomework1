@@ -6,10 +6,11 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras import layers
 from Chess.Dataset import Dataset
 from Config import Config
+from Heuristics import PieceValue
+from Heuristics import PieceValueWithPositions
 
 class Predict:
     def __init__(self):
-        print(Dataset.data)
         self.dataset = self.prepare_dataset(Dataset.data)
         self.y = self.dataset.pop('h')
         self.X = self.dataset
@@ -29,7 +30,7 @@ class Predict:
         model.compile(loss='mse', optimizer='adam', metrics=['mae', 'mse'])
         return model
     
-    def train_model(self, patience=25, verbose=True):
+    def train_model(self, patience=20, verbose=True):
 
         early_stop = keras.callbacks.EarlyStopping(
             monitor='val_loss', patience=patience)

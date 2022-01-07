@@ -20,7 +20,7 @@ def piece_value_with_positions(state):
             # If this is a winning state for white
             if state.white_win == True:
                 state.value = 999
-                return
+                return state.value
             if state.board[i][j] == cp.W_PAWN.value:
                 state.value = round(state.value + 1 * heatmap[i][j], 4)
                 continue
@@ -37,7 +37,7 @@ def piece_value_with_positions(state):
             # If this is a winning state for black
             if state.black_win == True:
                 state.value = -999
-                return
+                return state.value
             if state.board[i][j] == cp.B_PAWN.value:
                 state.value = round(state.value - 1 * heatmap[i][j], 4)
                 continue

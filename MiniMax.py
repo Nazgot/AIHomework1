@@ -1,4 +1,5 @@
 import numpy as np
+from Chess.Dataset import Dataset
 from Chess.Predict import Predict
 from Heuristics.PieceValue import piece_value
 from Heuristics.PieceValueWithPositions import piece_value_with_positions
@@ -11,11 +12,16 @@ def minimax(state, depth, alpha, beta, turn, predict):
 
 
 def maxi(state, depth, alpha, beta, turn, predict):
-    if depth == 0:
+    if depth == 0 or state.final == True:
         h1 = piece_value(state) if not turn else - piece_value(state)
         h2 = piece_value_with_positions(state) if not turn else - piece_value_with_positions(state)
         features = predict.scale([[h1, h2]])
-        return state, predict.model.predict(features)[0][0]
+        evaluation = predict.model.predict(features)[0][0]
+
+        values = [h1, h2, evaluation]
+        Dataset.data.append(values)
+
+        return state, evaluation
     
     maximum = -np.inf
     best_state = state
@@ -35,11 +41,16 @@ def maxi(state, depth, alpha, beta, turn, predict):
 
 
 def mini(state, depth, alpha, beta, turn, predict):
-    if depth == 0:
+    if depth == 0 or state.final == True:
         h1 = piece_value(state) if not turn else - piece_value(state)
         h2 = piece_value_with_positions(state) if not turn else - piece_value_with_positions(state)
         features = predict.scale([[h1, h2]])
-        return state, predict.model.predict(features)[0][0]
+        evaluation = predict.model.predict(features)[0][0]
+
+        values = [h1, h2, evaluation]
+        Dataset.data.append(values)
+        
+        return state, evaluation
     
     minimum = np.inf
     best_state = state

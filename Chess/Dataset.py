@@ -14,4 +14,3 @@ class Dataset:
             with open('./Chess/dataset.csv', newline='') as file:
                 reader = csv.reader(file)
                 Dataset.data = list(reader)
-                print("Dataset entries: " + str(len(Dataset.data)))
