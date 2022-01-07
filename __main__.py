@@ -27,9 +27,10 @@ def play_match(predict):
         
         if state.final == True:
             game_over = True
+            winner = True if state.black_win else False
 
         turn = not turn
-    return True if state.black_win == True else False
+    return winner
 
 
 
@@ -41,7 +42,7 @@ def main():
     predict.load_model()
     black_wins = 0
 
-    for counter in range(20): 
+    for counter in range(50): 
         print("\nStarting match " + str(counter))
         start = time.time()
         if play_match(predict) == True:
@@ -49,14 +50,14 @@ def main():
         end = time.time()
         print("\nMatch lasted %d seconds", end - start)
 
-        if Config.TRAINING_MODE:
+        if Config.TRAINING:
             predict.update_dataset()
             predict.train_model()
             predict.save_model()
     
         Dataset.write()
     
-    print("Black wins = " + str(black_wins) + "\nWhite wins = " + str(20-black_wins))
+    print("Black wins = " + str(black_wins) + "\nWhite wins = " + str(50-black_wins))
 
 
 if __name__ == "__main__":
